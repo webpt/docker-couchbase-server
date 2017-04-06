@@ -1,4 +1,4 @@
-FROM ubuntu:14.04
+FROM ubuntu:12.04
 
 MAINTAINER Couchbase Docker Team <docker@couchbase.com>
 
@@ -15,14 +15,14 @@ MAINTAINER Couchbase Docker Team <docker@couchbase.com>
 #  numactl: numactl
 RUN apt-get update && \
     apt-get install -yq runit wget python-httplib2 chrpath \
-    lsof lshw sysstat net-tools numactl  && \
+    lsof lshw sysstat net-tools numactl librtmp0 && \
     apt-get autoremove && apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-ARG CB_VERSION=4.5.0
+ARG CB_VERSION=2.2.0
 ARG CB_RELEASE_URL=http://packages.couchbase.com/releases
-ARG CB_PACKAGE=couchbase-server-community_4.5.0-ubuntu14.04_amd64.deb
-ARG CB_SHA256=7682b2c90717ba790b729341e32ce5a43f7eacb5279f48f47aae165c0ec3a633
+ARG CB_PACKAGE=couchbase-server-community_2.2.0_x86_64.deb
+ARG CB_SHA256=051b0905e13241de19fbd9efb1e22a421f33429a1db3e4b5e3ae8756b9e4d6a2
 
 ARG CB_REST_USERNAME
 ARG CB_REST_PASSWORD
@@ -79,12 +79,15 @@ RUN nohup /etc/service/couchbase-server/run & sleep 10 \
       --cluster-username=${CB_REST_USERNAME} \
       --cluster-password=${CB_REST_PASSWORD} \
       --cluster-ramsize=${RAM_SIZE_MB} \
+      --cluster=localhost:8091 \
  && couchbase-cli bucket-create \
       --bucket=${BUCKET} \
       --bucket-type=couchbase \
       --bucket-ramsize=${RAM_SIZE_MB} \
       --bucket-replica=0 \
-      --cluster=localhost:8091
+      --cluster=localhost:8091 \
+      --user=${CB_REST_USERNAME} \
+      --password=${CB_REST_PASSWORD}
 
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["couchbase-server"]
