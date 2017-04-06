@@ -24,7 +24,17 @@ ARG CB_RELEASE_URL=http://packages.couchbase.com/releases
 ARG CB_PACKAGE=couchbase-server-community_4.5.0-ubuntu14.04_amd64.deb
 ARG CB_SHA256=7682b2c90717ba790b729341e32ce5a43f7eacb5279f48f47aae165c0ec3a633
 
+ARG CB_REST_USERNAME
+ARG CB_REST_PASSWORD
+ARG RAM_SIZE_MB
+ARG BUCKET
+
 ENV PATH=$PATH:/opt/couchbase/bin:/opt/couchbase/bin/tools:/opt/couchbase/bin/install
+
+ENV CB_REST_USERNAME=${CB_REST_USERNAME:-Administrator}
+ENV CB_REST_PASSWORD=${CB_REST_PASSWORD:-password}
+ENV RAM_SIZE_MB=${RAM_SIZE_MB:-256}
+ENV BUCKET=${BUCKET:-default}
 
 # Create Couchbase user with UID 1000 (necessary to match default
 # boot2docker UID)
@@ -51,8 +61,6 @@ RUN chrpath -r '$ORIGIN/../lib' /opt/couchbase/bin/curl
 
 # Add bootstrap script
 COPY scripts/entrypoint.sh /
-ENTRYPOINT ["/entrypoint.sh"]
-CMD ["couchbase-server"]
 
 # 8091: Couchbase Web console, REST/HTTP interface
 # 8092: Views, queries, XDCR
@@ -65,5 +73,18 @@ CMD ["couchbase-server"]
 # 18092: Views, query, XDCR (SSL)
 # 18093: Query services (SSL) (4.0+)
 EXPOSE 8091 8092 8093 8094 11207 11210 11211 18091 18092 18093
-VOLUME /opt/couchbase/var
 
+RUN nohup /etc/service/couchbase-server/run & sleep 10 \
+ && couchbase-cli cluster-init \
+      --cluster-username=${CB_REST_USERNAME} \
+      --cluster-password=${CB_REST_PASSWORD} \
+      --cluster-ramsize=${RAM_SIZE_MB} \
+ && couchbase-cli bucket-create \
+      --bucket=${BUCKET} \
+      --bucket-type=couchbase \
+      --bucket-ramsize=${RAM_SIZE_MB} \
+      --bucket-replica=0 \
+      --cluster=localhost:8091
+
+ENTRYPOINT ["/entrypoint.sh"]
+CMD ["couchbase-server"]
