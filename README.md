@@ -6,6 +6,7 @@
 	- `CB_REST_PASSWORD`: password
 	- `RAM_SIZE_MB`: 256
 	- `BUCKET`: default
+	- `STARTUP_SLEEP`: 30
 
 ## Usage
 To build the couchbase-server container with default values:

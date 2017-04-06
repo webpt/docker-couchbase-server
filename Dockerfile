@@ -28,6 +28,7 @@ ARG CB_REST_USERNAME
 ARG CB_REST_PASSWORD
 ARG RAM_SIZE_MB
 ARG BUCKET
+ARG STARTUP_SLEEP
 
 ENV PATH=$PATH:/opt/couchbase/bin:/opt/couchbase/bin/tools:/opt/couchbase/bin/install
 
@@ -35,6 +36,7 @@ ENV CB_REST_USERNAME=${CB_REST_USERNAME:-Administrator}
 ENV CB_REST_PASSWORD=${CB_REST_PASSWORD:-password}
 ENV RAM_SIZE_MB=${RAM_SIZE_MB:-256}
 ENV BUCKET=${BUCKET:-default}
+ENV STARTUP_SLEEP=${STARTUP_SLEEP:-30}
 
 # Create Couchbase user with UID 1000 (necessary to match default
 # boot2docker UID)
@@ -74,7 +76,7 @@ COPY scripts/entrypoint.sh /
 # 18093: Query services (SSL) (4.0+)
 EXPOSE 8091 8092 8093 8094 11207 11210 11211 18091 18092 18093
 
-RUN nohup /etc/service/couchbase-server/run & sleep 10 \
+RUN nohup /etc/service/couchbase-server/run & sleep $STARTUP_SLEEP \
  && couchbase-cli cluster-init \
       --cluster-username=${CB_REST_USERNAME} \
       --cluster-password=${CB_REST_PASSWORD} \
