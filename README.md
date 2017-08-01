@@ -19,4 +19,4 @@ To build the couchbase-server container with a 512MB bucket named testing:
 
 To run the couchbase-server container:
 
-`docker run -d --name couchbase-server -p 8091-8094:8091-8094 -p 11210-11211:11210-11211 couchbase-server`
+`docker run -d --name couchbase-server -p 8091-8094:8091-8094 -p 11210-11211:11210-11211 webpt/couchbase-server`
