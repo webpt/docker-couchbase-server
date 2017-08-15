@@ -7,6 +7,7 @@
 	- `RAM_SIZE_MB`: 256
 	- `BUCKET`: default
 	- `STARTUP_SLEEP`: 30
+	- `ENABLE_FLUSH`: 1 (default), or 0
 
 ## Usage
 To build the couchbase-server container with default values:

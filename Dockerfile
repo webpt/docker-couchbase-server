@@ -38,7 +38,7 @@ ENV CB_REST_PASSWORD=${CB_REST_PASSWORD:-password}
 ENV RAM_SIZE_MB=${RAM_SIZE_MB:-256}
 ENV BUCKET=${BUCKET:-default}
 ENV STARTUP_SLEEP=${STARTUP_SLEEP:-30}
-ENV ENABLE_FLUSH=${ENABLE_FLUSH:-0}
+ENV ENABLE_FLUSH=${ENABLE_FLUSH:-1}
 
 # Create Couchbase user with UID 1000 (necessary to match default
 # boot2docker UID)
