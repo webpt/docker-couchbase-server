@@ -7,6 +7,7 @@
 	- `RAM_SIZE_MB`: 256
 	- `BUCKET`: default
 	- `STARTUP_SLEEP`: 30
+	- `ENABLE_FLUSH`: 1 (default), or 0
 
 ## Docker Hub
 This image is hosted on [Docker Hub](https://hub.docker.com/r/webpt/couchbase-server/).
