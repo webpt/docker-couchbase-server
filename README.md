@@ -8,7 +8,12 @@
 	- `BUCKET`: default
 	- `STARTUP_SLEEP`: 30
 
-## Usage
+## Docker Hub
+This image is hosted on [Docker Hub](https://hub.docker.com/r/webpt/couchbase-server/).
+
+`docker run -d --name couchbase-server -p 8091-8094:8091-8094 -p 11210-11211:11210-11211 webpt/couchbase-server`
+
+## Build
 To build the couchbase-server container with default values:
 
 `docker build -t couchbase-server .`
