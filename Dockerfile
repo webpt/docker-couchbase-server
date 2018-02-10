@@ -19,10 +19,10 @@ RUN apt-get update && \
     apt-get autoremove && apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-ARG CB_VERSION=4.5.0
+ARG CB_VERSION=4.5.1
 ARG CB_RELEASE_URL=http://packages.couchbase.com/releases
-ARG CB_PACKAGE=couchbase-server-community_4.5.0-ubuntu14.04_amd64.deb
-ARG CB_SHA256=7682b2c90717ba790b729341e32ce5a43f7eacb5279f48f47aae165c0ec3a633
+ARG CB_PACKAGE=couchbase-server-community_4.5.1-ubuntu14.04_amd64.deb
+ARG CB_SHA256=de983d0137bd2de2608e52cbfdf01de6dd9d3c1d9bc45bd0702d253245a8a234
 
 ARG CB_REST_USERNAME
 ARG CB_REST_PASSWORD
