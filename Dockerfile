@@ -30,6 +30,7 @@ ARG RAM_SIZE_MB
 ARG BUCKET
 ARG STARTUP_SLEEP
 ARG ENABLE_FLUSH
+ARG CB_SERVICES
 
 ENV PATH=$PATH:/opt/couchbase/bin:/opt/couchbase/bin/tools:/opt/couchbase/bin/install
 
@@ -39,6 +40,7 @@ ENV RAM_SIZE_MB=${RAM_SIZE_MB:-256}
 ENV BUCKET=${BUCKET:-default}
 ENV STARTUP_SLEEP=${STARTUP_SLEEP:-30}
 ENV ENABLE_FLUSH=${ENABLE_FLUSH:-1}
+ENV CB_SERVICES=${CB_SERVICES:-"data,index,query,fts"}
 
 # Create Couchbase user with UID 1000 (necessary to match default
 # boot2docker UID)
@@ -85,6 +87,7 @@ RUN nohup /etc/service/couchbase-server/run & sleep $STARTUP_SLEEP \
       --cluster-username=${CB_REST_USERNAME} \
       --cluster-password=${CB_REST_PASSWORD} \
       --cluster-ramsize=${RAM_SIZE_MB} \
+      --services=${CB_SERVICES} \
  && couchbase-cli bucket-create \
       --bucket=${BUCKET} \
       --bucket-type=couchbase \
